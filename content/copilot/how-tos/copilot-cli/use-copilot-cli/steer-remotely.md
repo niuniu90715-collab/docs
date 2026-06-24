@@ -19,6 +19,8 @@ Remote control lets you connect to a running {% data variables.copilot.copilot_c
 
 This article explains how to enable and use remote control. For more conceptual information, see [AUTOTITLE](/copilot/concepts/agents/copilot-cli/about-remote-control).
 
+{% data reusables.copilot.copilot-cli.synced-sessions-view-only %}
+
 ## Prerequisites
 
 * The machine where the CLI session is running must be online, with the session actively running in a terminal.
@@ -30,11 +32,12 @@ This article explains how to enable and use remote control. For more conceptual 
 
 ## Enabling remote control for a session
 
-You can enable remote control in three ways:
+You can enable remote control in several ways:
 
 * With a slash command during an interactive session.
 * With a command-line option when you start {% data variables.copilot.copilot_cli_short %}.
 * By configuring the CLI to enable remote control by default for all interactive sessions.
+* From JetBrains IDE settings before you start a session.
 
 ### Using the `/remote` slash command
 
@@ -75,7 +78,18 @@ copilot --no-remote
 ```
 
 > [!NOTE]
-> The command-line options `--remote` and `--no-remote` always take precedence over the `remoteSessions` setting in the settings file.
+> The command-line options `--remote` and `--no-remote` always take precedence over the `remote` setting in the settings file.
+
+### Using JetBrains IDE settings
+
+If you use {% data variables.copilot.copilot_cli_short %} from a JetBrains IDE, you can enable remote control from the IDE before you start a session.
+
+{% data reusables.copilot.jetbrains-settings %}
+{% data reusables.copilot.jetbrains-tools %}, then click **Chat**.
+1. Select **Enable Copilot CLI Remote**.
+1. Start an interactive {% data variables.copilot.copilot_cli_short %} session from the IDE.
+
+When this setting is enabled, you can use `/remote` in the session at any time to view the current remote control status or redisplay the links and QR code for accessing the session remotely.
 
 ## Accessing a session from {% data variables.product.prodname_dotcom_the_website %}
 
@@ -150,9 +164,8 @@ On {% data variables.product.prodname_dotcom_the_website %}, a message tells you
 Remote control is disabled by default, but may be enabled in your {% data variables.product.prodname_copilot_short %} settings file (typically `~/.copilot/settings.json`). You can ensure a session is not remotely controllable by:
 
 * **For a single session**: Start the CLI with `--no-remote` to prevent remote control for that session, regardless of your settings file value.
-* **Permanently**: Remove the `"remoteSessions": true` setting from `~/.copilot/settings.json` (or set it to `false`).
+* **Permanently**: Remove the `"remoteSessions": true` setting from `~/.copilot/settings.json`, or set it to `false`.
 
 ## Further reading
 
 * [{% data variables.copilot.copilot_cli_short %} sessions in {% data variables.product.prodname_vscode %}](https://code.visualstudio.com/docs/copilot/agents/copilot-cli) in the {% data variables.product.prodname_vscode_shortname %} documentation.
-* [Enable {% data variables.copilot.copilot_cli_short %} remote control](https://github.com/microsoft/copilot-intellij-feedback/wiki/Enable-Copilot-CLI-Remote-Control) for JetBrains IDEs, in the `microsoft/copilot-intellij-feedback` repository.

@@ -8524,6 +8524,21 @@
         },
         {
           "type": "boolean",
+          "name": "has_pull_requests",
+          "description": "<p>Either <code>true</code> to allow pull requests for this repository or <code>false</code> to prevent pull requests.</p>",
+          "default": true
+        },
+        {
+          "type": "string",
+          "name": "pull_request_creation_policy",
+          "description": "<p>The policy that controls who can create pull requests for this repository: <code>all</code> or <code>collaborators_only</code>.</p>",
+          "enum": [
+            "all",
+            "collaborators_only"
+          ]
+        },
+        {
+          "type": "boolean",
           "name": "is_template",
           "description": "<p>Either <code>true</code> to make this repo available as a template repository or <code>false</code> to prevent it.</p>",
           "default": false
@@ -13313,6 +13328,100 @@
             "\"Contents\" repository permissions": "write"
           }
         ]
+      }
+    },
+    {
+      "serverUrl": "https://api.github.com",
+      "verb": "get",
+      "requestPath": "/repos/{owner}/{repo}/hash-algorithm",
+      "title": "Get the hash algorithm for a repository",
+      "category": "repos",
+      "subcategory": "repos",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "<p>The account owner of the repository. The name is not case sensitive.</p>",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "repo",
+          "description": "<p>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</p>",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "bodyParameters": [],
+      "descriptionHTML": "<p>Returns the hash algorithm used to store repository objects.</p>",
+      "codeExamples": [
+        {
+          "request": {
+            "description": "Example",
+            "acceptHeader": "application/vnd.github.v3+json",
+            "parameters": {
+              "owner": "OWNER",
+              "repo": "REPO"
+            }
+          },
+          "response": {
+            "statusCode": "200",
+            "contentType": "application/json",
+            "description": "<p>Response</p>",
+            "example": {
+              "hash_algorithm": "sha1"
+            },
+            "schema": {
+              "title": "Repository hash algorithm",
+              "description": "Repository hash algorithm",
+              "type": "object",
+              "properties": {
+                "hash_algorithm": {
+                  "type": "string",
+                  "description": "The Git hash algorithm used by this repository.",
+                  "enum": [
+                    "sha1",
+                    "sha256"
+                  ]
+                }
+              },
+              "required": [
+                "hash_algorithm"
+              ]
+            }
+          }
+        }
+      ],
+      "statusCodes": [
+        {
+          "httpStatusCode": "200",
+          "description": "<p>OK</p>"
+        },
+        {
+          "httpStatusCode": "403",
+          "description": "<p>Forbidden</p>"
+        },
+        {
+          "httpStatusCode": "404",
+          "description": "<p>Resource not found</p>"
+        }
+      ],
+      "previews": [],
+      "progAccess": {
+        "userToServerRest": true,
+        "serverToServer": true,
+        "fineGrainedPat": true,
+        "permissions": [
+          {
+            "\"Metadata\" repository permissions": "read"
+          }
+        ],
+        "allowsPublicRead": true
       }
     },
     {
@@ -36128,6 +36237,165 @@
       }
     }
   ],
+  "issue-types": [
+    {
+      "serverUrl": "https://api.github.com",
+      "verb": "get",
+      "requestPath": "/repos/{owner}/{repo}/issue-types",
+      "title": "List issue types for a repository",
+      "category": "repos",
+      "subcategory": "issue-types",
+      "parameters": [
+        {
+          "name": "owner",
+          "description": "<p>The account owner of the repository. The name is not case sensitive.</p>",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "repo",
+          "description": "<p>The name of the repository without the <code>.git</code> extension. The name is not case sensitive.</p>",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "bodyParameters": [],
+      "descriptionHTML": "<p>Lists issue types available for a repository (inherited from its organization owner, with any per-repository overrides applied).\nOAuth app tokens and personal access tokens (classic) need the <code>repo</code> scope to use this endpoint.\nFine-grained access tokens require the \"Metadata\" repository permission (read).</p>",
+      "codeExamples": [
+        {
+          "request": {
+            "description": "Example",
+            "acceptHeader": "application/vnd.github.v3+json",
+            "parameters": {
+              "owner": "OWNER",
+              "repo": "REPO"
+            }
+          },
+          "response": {
+            "statusCode": "200",
+            "contentType": "application/json",
+            "description": "<p>Response</p>",
+            "example": [
+              {
+                "id": 410,
+                "node_id": "IT_kwDNAd3NAZo",
+                "name": "Task",
+                "description": "A specific piece of work",
+                "created_at": "2024-12-11T14:39:09Z",
+                "updated_at": "2024-12-11T14:39:09Z"
+              },
+              {
+                "id": 411,
+                "node_id": "IT_kwDNAd3NAZs",
+                "name": "Bug",
+                "description": "An unexpected problem or behavior",
+                "created_at": "2024-12-11T14:39:09Z",
+                "updated_at": "2024-12-11T14:39:09Z"
+              }
+            ],
+            "schema": {
+              "type": "array",
+              "items": {
+                "title": "Issue Type",
+                "description": "The type assigned to the issue. This is only present for issues in repositories where issue types are supported.",
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "The unique identifier of the issue type."
+                  },
+                  "node_id": {
+                    "type": "string",
+                    "description": "The node identifier of the issue type."
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "The name of the issue type."
+                  },
+                  "description": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": "The description of the issue type."
+                  },
+                  "color": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "description": "The color of the issue type.",
+                    "enum": [
+                      "gray",
+                      "blue",
+                      "green",
+                      "yellow",
+                      "orange",
+                      "red",
+                      "pink",
+                      "purple",
+                      null
+                    ]
+                  },
+                  "created_at": {
+                    "type": "string",
+                    "description": "The time the issue type created.",
+                    "format": "date-time"
+                  },
+                  "updated_at": {
+                    "type": "string",
+                    "description": "The time the issue type last updated.",
+                    "format": "date-time"
+                  },
+                  "is_enabled": {
+                    "type": "boolean",
+                    "description": "The enabled state of the issue type."
+                  }
+                },
+                "required": [
+                  "id",
+                  "node_id",
+                  "name",
+                  "description"
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "statusCodes": [
+        {
+          "httpStatusCode": "200",
+          "description": "<p>OK</p>"
+        },
+        {
+          "httpStatusCode": "404",
+          "description": "<p>Resource not found</p>"
+        }
+      ],
+      "previews": [],
+      "progAccess": {
+        "userToServerRest": true,
+        "serverToServer": true,
+        "fineGrainedPat": true,
+        "permissions": [
+          {
+            "\"Metadata\" repository permissions": "read"
+          }
+        ],
+        "allowsPublicRead": true
+      }
+    }
+  ],
   "lfs": [
     {
       "serverUrl": "https://api.github.com",
@@ -36328,6 +36596,21 @@
               "fail",
               "bypass",
               "all"
+            ]
+          }
+        },
+        {
+          "name": "evaluate_status",
+          "description": "<p>The evaluate status to filter on. When specified, only rule suites resulting from rulesets with the specified evaluate status will be returned.</p>\n<ul>\n<li><code>all</code> - all rule suites will be returned.</li>\n<li><code>active</code> - only rule suites resulting from rulesets in active (non-evaluate) mode will be returned.</li>\n<li><code>evaluate</code> - only rule suites resulting from rulesets in evaluate mode will be returned.</li>\n</ul>",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "string",
+            "default": "all",
+            "enum": [
+              "all",
+              "active",
+              "evaluate"
             ]
           }
         },

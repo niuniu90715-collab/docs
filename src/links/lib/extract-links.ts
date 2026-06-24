@@ -8,10 +8,13 @@
 import fs from 'fs'
 import path from 'path'
 
+import { createLogger } from '@/observability/logger'
 import { allVersions } from '@/versions/lib/all-versions'
 import { latestStable } from '@/versions/lib/enterprise-server-releases'
 import { getDataByLanguage } from '@/data-directory/lib/get-data'
 import type { Context, Page } from '@/types'
+
+const logger = createLogger(import.meta.url)
 
 // Link patterns for Markdown
 const INTERNAL_LINK_PATTERN = /\]\(\/[^)]+\)/g
@@ -300,7 +303,7 @@ export function createLiquidContext(
 
 // Cached reference to renderLiquid — avoids repeated dynamic-import overhead on every call.
 // A dynamic import is still used (not a top-level import) to prevent circular dependency issues.
-type RenderLiquidModule = (template: string, context: unknown) => Promise<string>
+type RenderLiquidModule = (template: string, context: Context) => Promise<string>
 let _renderLiquid: RenderLiquidModule | null = null
 async function getCachedRenderLiquid(): Promise<RenderLiquidModule> {
   if (!_renderLiquid) {
@@ -329,7 +332,7 @@ export async function extractLinksWithLiquid(
   } catch (error) {
     // If Liquid rendering fails, fall back to raw extraction
     // This can happen with malformed templates
-    console.warn('Liquid rendering failed, falling back to raw extraction:', error)
+    logger.warn('Liquid rendering failed, falling back to raw extraction', { error })
     return extractLinksFromMarkdown(content)
   }
 }
@@ -347,7 +350,7 @@ export async function renderAndExtractLinks(
     const renderedMarkdown = await renderLiquid(content, context)
     return { renderedMarkdown, result: extractLinksFromMarkdown(renderedMarkdown) }
   } catch (error) {
-    console.warn('Liquid rendering failed, falling back to raw extraction:', error)
+    logger.warn('Liquid rendering failed, falling back to raw extraction', { error })
     return { renderedMarkdown: content, result: extractLinksFromMarkdown(content) }
   }
 }

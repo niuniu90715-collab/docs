@@ -214,6 +214,7 @@ To leave feedback about the {% data variables.copilot.copilot_chat %} extension,
 
 * [AUTOTITLE](/copilot/using-github-copilot/prompt-engineering-for-github-copilot)
 * [Using {% data variables.copilot.copilot_chat_short %} in {% data variables.product.prodname_vscode_shortname %}](https://code.visualstudio.com/docs/copilot/copilot-chat) and [Getting started with {% data variables.product.prodname_copilot %} in {% data variables.product.prodname_vscode_shortname %}](https://code.visualstudio.com/docs/copilot/getting-started) in the {% data variables.product.prodname_vscode %} documentation
+* [AUTOTITLE](/copilot/how-tos/copilot-on-github/use-copilot-agents/manage-and-track-agents)
 * [AUTOTITLE](/copilot/github-copilot-enterprise/copilot-chat-in-github/using-github-copilot-chat-in-githubcom)
 * [AUTOTITLE](/copilot/github-copilot-chat/about-github-copilot-chat)
 * [AUTOTITLE](/free-pro-team@latest/site-policy/github-terms/github-terms-for-additional-products-and-features#github-copilot)
@@ -311,7 +312,7 @@ Use agent mode when you have a specific task in mind and want to enable {% data 
 1. Submit a prompt. In response to your prompt, {% data variables.product.prodname_copilot_short %} streams the edits in the editor, updates the working set, and if necessary, suggests terminal commands to run.
 1. Review the changes. If {% data variables.product.prodname_copilot_short %} suggested terminal commands, confirm whether or not {% data variables.product.prodname_copilot_short %} can run them. In response, {% data variables.product.prodname_copilot_short %} iterates and performs additional actions to complete the task in your original prompt.
 
-When you use {% data variables.copilot.copilot_agent_short %} mode, each prompt you enter counts as one premium request, multiplied by the model’s multiplier. For example, if you're using the included model—which has a multiplier of 0—your prompts won’t consume any premium requests. {% data variables.product.prodname_copilot_short %} may take several follow-up actions to complete your task, but these follow-up actions do **not** count toward your premium request usage. Only the prompts you enter are billed—tool calls or background steps taken by the agent are not charged.
+When you use {% data variables.copilot.copilot_agent_short %} mode, each prompt you enter consumes {% data variables.product.prodname_ai_credits %}.
 
 ## Using images in {% data variables.copilot.copilot_chat_short %}
 
@@ -370,6 +371,18 @@ To share feedback about {% data variables.copilot.copilot_chat_short %}, you can
 {% data reusables.copilot.jetbrains-plugin-prerequisites %}
 
 {% data reusables.copilot.chat-access-denied %}
+
+## {% data variables.copilot.copilot_chat_short %} agents
+
+The agent picker in the {% data variables.copilot.copilot_chat_short %} panel lets you choose which agent drives your conversation. To switch agents, use the Agents dropdown at the bottom of the chat panel.
+
+The following agents are available:
+
+* **Agent mode** (default): Full agentic experience with autonomous task execution.
+* **Ask mode**: Get quick answers and assistance without making code changes.
+* **Plan mode**: Collaborate on planning before implementation—{% data variables.product.prodname_copilot_short %} analyzes your request and builds a structured plan for your review.
+* **{% data variables.copilot.copilot_cli_short %}**: Runs {% data variables.product.prodname_copilot_short %} through {% data variables.copilot.copilot_cli_short %}, providing a terminal-first agentic experience with support for multiple isolation modes, live session progress, and tool call visibility. For more information, see [AUTOTITLE](/copilot/concepts/agents/copilot-cli/about-copilot-cli).
+* **Custom agents**: Use personalized agents tailored to your specific needs. For more information, see [AUTOTITLE](/copilot/concepts/agents/copilot-cli/about-custom-agents).
 
 ## Submitting prompts
 
